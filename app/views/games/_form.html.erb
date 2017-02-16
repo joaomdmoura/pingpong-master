@@ -21,7 +21,7 @@
   <div class="form-group">
     <%= f.label :opponent_id, class: 'col-sm-2 control-label' %>
     <div class="col-sm-10">
-      <%= f.select :opponent_id, User.all.collect {|u| [u.email, u.id]}, {}, class: 'form-control' %>
+      <%= f.select :opponent_id, User.all_except(current_user.id).collect {|u| [u.email, u.id]}, {}, class: 'form-control' %>
     </div>
   </div>
 
