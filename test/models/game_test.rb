@@ -13,18 +13,36 @@ class GameTest < ActiveSupport::TestCase
     game[:opponent_score] = 'x'
 
     assert_not game.valid?
-    assert_equal ["is not a number"], game.errors.messages[:player_score]
-    assert_equal ["is not a number"], game.errors.messages[:opponent_score]
+    assert game.errors.messages[:player_score].include?("is not a number")
+    assert game.errors.messages[:opponent_score].include?("is not a number")
   end
 
   test "Game should have integer scores" do
     game = games(:game_1)
     game[:player_score] = 1.1
-    game[:opponent_score] = 1.2
+    game[:opponent_score] = 5.2
 
     assert_not game.valid?
     assert_equal ["must be an integer"], game.errors.messages[:player_score]
     assert_equal ["must be an integer"], game.errors.messages[:opponent_score]
+  end
+
+  test "Game should be won by a two point margin" do
+    game = games(:game_1)
+    game[:player_score] = 21
+    game[:opponent_score] = 20
+
+    assert_not game.valid?
+    assert_equal ["game needs to be won by a two point margin"], game.errors.messages[:player_score]
+  end
+
+  test "Game should have a top score of 21" do
+    game = games(:game_1)
+    game[:player_score] = 22
+    game[:opponent_score] = 19
+
+    assert_not game.valid?
+    assert_equal ["must be less than 22"], game.errors.messages[:player_score]
   end
 
   test "Game should have a played_at date in the past" do
