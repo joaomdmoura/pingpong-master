@@ -2,7 +2,7 @@ class GamesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @games = Game.all
+    @games = current_user.games
   end
 
   def new
@@ -10,9 +10,8 @@ class GamesController < ApplicationController
   end
 
   def create
-    params = game_params
-    params[:player] = current_user
-    @game = Game.new(params)
+    @game = Game.new(game_params)
+    @game.player = current_user
 
     if @game.save
       redirect_to games_path, notice: 'Game was successfully created.'
