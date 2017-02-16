@@ -1,0 +1,25 @@
+<h1 class='page-header'>Leaderboard</h1>
+
+<p id="notice"><%= notice %></p>
+
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Rank</th>
+      <th>Name</th>
+      <th>Score</th>
+      <th>Games Played</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each_with_index do |user, index| %>
+      <tr>
+        <td><%= index + 1 %></td>
+        <td><%= user.email %></td>
+        <td><%= user.rating.round %></td>
+        <td><%= user.games.size %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

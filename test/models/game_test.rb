@@ -58,7 +58,7 @@ class GameTest < ActiveSupport::TestCase
     assert_equal "#{game.player_score} - #{game.opponent_score}", game.score
   end
 
-  test "result should be computed as string W or L depending on the game score before saving the resrouce" do
+  test "result should be computed as string W or L depending on the game score before saving the resource" do
     game = games(:game_1)
 
     game[:player_score] = 21
@@ -72,5 +72,21 @@ class GameTest < ActiveSupport::TestCase
     game.save
 
     assert_equal 'L', game.result
+  end
+
+  test "players ratings should be updated whenver a new game is logged" do
+    player = users(:user_1)
+    opponent = users(:user_2)
+    game = games(:game_1)
+
+    assert_equal 1000, player.rating
+    assert_equal 1000, opponent.rating
+
+    game[:player_score] = 21
+    game[:opponent_score] = 9
+    game.save
+
+    assert player.reload.rating > 1000
+    assert opponent.reload.rating < 1000
   end
 end

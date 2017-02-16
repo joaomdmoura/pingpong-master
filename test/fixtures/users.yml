@@ -1,11 +1,14 @@
 default:
   email: user@email.com
+  rating: 1000
   encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
 
 user_1:
   email: user1@email.com
+  rating: 1000
   encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
 
 user_2:
   email: user2@email.com
+  rating: 1000
   encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
