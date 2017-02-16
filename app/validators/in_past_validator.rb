@@ -5,7 +5,7 @@ class InPastValidator < ActiveModel::EachValidator
 
   private
 
-  def in_past?(date)
-    date.present? && date <= Date.today
-  end
+    def in_past?(date)
+      date.present? && date <= Time.zone.today
+    end
 end

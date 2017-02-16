@@ -29,9 +29,30 @@ class GameTest < ActiveSupport::TestCase
 
   test "Game should have a played_at date in the past" do
     game = games(:game_1)
-    game[:played_at] = Date.today + 1
+    game[:played_at] = Time.zone.today + 1
 
     assert_not game.valid?
     assert_equal ["should be in the past"], game.errors.messages[:played_at]
+  end
+
+  test "score should return a predefined formated string with game scores" do
+    game = games(:game_1)
+    assert_equal "#{game.player_score} - #{game.opponent_score}", game.score
+  end
+
+  test "result should be computed as string W or L depending on the game score before saving the resrouce" do
+    game = games(:game_1)
+
+    game[:player_score] = 21
+    game[:opponent_score] = 9
+    game.save
+
+    assert_equal 'W', game.result
+
+    game[:player_score] = 9
+    game[:opponent_score] = 21
+    game.save
+
+    assert_equal 'L', game.result
   end
 end

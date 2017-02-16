@@ -1,0 +1,48 @@
+<%= form_for(@game, html: { class: 'form-horizontal' }) do |f| %>
+  <% if @game.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@game.errors.count, "error") %> prohibited this game from being saved:</h2>
+
+      <ul>
+      <% @game.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :date_played, class: 'col-sm-2 control-label' %>
+    <div class="col-sm-10">
+      <%= f.date_select :played_at, {order: [:month, :day, :year] }, {class: 'form-control'}  %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :opponent_id, class: 'col-sm-2 control-label' %>
+    <div class="col-sm-10">
+      <%= f.select :opponent_id, User.all.collect {|u| [u.email, u.id]}, {}, class: 'form-control' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :your_score, class: 'col-sm-2 control-label' %>
+    <div class="col-sm-10">
+      <%= f.number_field :player_score, class: 'form-control' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :their_score, class: 'col-sm-2 control-label' %>
+    <div class="col-sm-10">
+      <%= f.number_field :opponent_score, class: 'form-control' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-10  col-sm-offset-2">
+      <%= f.submit 'Save', class: 'btn btn-default' %>
+      <%= link_to 'cancel', games_path, class: 'btn btn-link' %>
+    </div>
+  </div>
+<% end %>

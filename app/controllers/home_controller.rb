@@ -6,5 +6,6 @@ class HomeController < ApplicationController
   end
 
   def log
+  	@game = Game.new
   end
 end
